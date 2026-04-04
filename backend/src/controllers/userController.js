@@ -1,10 +1,20 @@
 import prisma from "../config/db.js";
 
-// GET ALL USERS (Admin / SuperAdmin)
+// GET ALL USERS (Admin / SuperAdmin Oversight)
 export const getUsers = async (req, res) => {
     try {
+        const executorRole = req.user.role;
+        
+        // SECURITY ARCHITECTURE: 
+        // 1. SuperAdmin sees EVERYONE (including self and peer Supers)
+        // 2. Admin sees everyone EXCEPT SuperAdmins
+        const where = { isDeleted: false };
+        if (executorRole !== 'SUPER_ADMIN') {
+            where.role = { not: 'SUPER_ADMIN' };
+        }
+
         const users = await prisma.user.findMany({
-            where: { isDeleted: false },
+            where,
             select: {
                 id: true,
                 name: true,
@@ -44,19 +54,34 @@ export const promoteUser = async (req, res) => {
             return res.status(403).json({ success: false, message: "Only Super Admin can appoint Admins" });
         }
 
-        // 3. Admin cannot touch other Admins or Super Admins
-        if (executorRole === 'ADMIN' && (targetUser.role === 'ADMIN' || targetUser.role === 'SUPER_ADMIN')) {
-            return res.status(403).json({ success: false, message: "Insufficient clearance to modify peer admins" });
+        // 3. Admin restrictions
+        if (executorRole === 'ADMIN') {
+            // Cannot touch peers (ADMIN/SUPER_ADMIN)
+            if (targetUser.role === 'ADMIN' || targetUser.role === 'SUPER_ADMIN') {
+                return res.status(403).json({ success: false, message: "Insufficient clearance to manage peer administrators" });
+            }
+            // Cannot promote to ADMIN
+            if (targetRole === 'ADMIN') {
+                return res.status(403).json({ success: false, message: "Higher clearance required to appoint Admins" });
+            }
+        }
+
+        const updateData = { role: targetRole, createdBy: req.user.userId };
+        
+        // "Admin can promote a viewer to analyst directly without email verification"
+        // This means we treat the promotion as a manual verification
+        if (targetRole === 'ANALYST' || targetRole === 'ADMIN' || targetRole === 'SUPER_ADMIN') {
+            updateData.isEmailVerified = true;
         }
 
         const updated = await prisma.user.update({
             where: { id },
-            data: { role: targetRole, createdBy: req.user.userId }
+            data: updateData
         });
 
-        res.json({ success: true, message: `User promoted to ${targetRole}`, data: updated });
+        res.json({ success: true, message: `Identity escalated to ${targetRole}`, data: updated });
     } catch (error) {
-        res.status(500).json({ success: false, message: "Promotion failed" });
+        res.status(500).json({ success: false, message: "Governance update failed" });
     }
 };
 
@@ -70,26 +95,40 @@ export const demoteUser = async (req, res) => {
         const targetUser = await prisma.user.findUnique({ where: { id } });
         if (!targetUser) return res.status(404).json({ success: false, message: "User not found" });
 
-        // Governance Rules
         if (targetUser.id === req.user.userId) return res.status(403).json({ success: false, message: "Self-demotion denied" });
+
+        // Governance Rules
+        // Admin cannot demote anyone if they are ADMIN or SUPER_ADMIN
+        if (executorRole === 'ADMIN' && (targetUser.role === 'ADMIN' || targetUser.role === 'SUPER_ADMIN')) {
+            return res.status(403).json({ success: false, message: "Insufficient clearance to demote administrators" });
+        }
 
         // Only SUPER_ADMIN can demote an ADMIN
         if (targetUser.role === 'ADMIN' && executorRole !== 'SUPER_ADMIN') {
-            return res.status(403).json({ success: false, message: "Only Super Admin can demote Admins" });
+            return res.status(403).json({ success: false, message: "Only Super Admin can demote peer Admins" });
         }
 
         // Protect last Super Admin
         if (targetUser.role === 'SUPER_ADMIN') {
             const superAdmins = await prisma.user.count({ where: { role: 'SUPER_ADMIN' } });
-            if (superAdmins <= 1) return res.status(403).json({ success: false, message: "System requires at least one Super Admin" });
+            if (superAdmins <= 1) return res.status(403).json({ success: false, message: "System failure: At least one Super Admin required" });
+        }
+
+        // SYSTEM RULE: Demoting to VIEWER strips verification status
+        const updateData = { role: targetRole };
+        if (targetRole === 'VIEWER') {
+            updateData.isEmailVerified = false;
+        } else {
+            // Escalation to ANALYST/ADMIN/SUPER_ADMIN implies verification
+            updateData.isEmailVerified = true;
         }
 
         const updated = await prisma.user.update({
             where: { id },
-            data: { role: targetRole }
+            data: updateData
         });
 
-        res.json({ success: true, message: `User demoted to ${targetRole}`, data: updated });
+        res.json({ success: true, message: `Identity reclassified to ${targetRole}`, data: updated });
     } catch (error) {
         res.status(500).json({ success: false, message: "Demotion failed" });
     }
@@ -104,11 +143,11 @@ export const deleteUser = async (req, res) => {
         const targetUser = await prisma.user.findUnique({ where: { id } });
         if (!targetUser) return res.status(404).json({ success: false, message: "User not found" });
 
-        if (targetUser.id === req.user.userId) return res.status(403).json({ success: false, message: "Self-deletion denied" });
+        if (targetUser.id === req.user.userId) return res.status(403).json({ success: false, message: "Identity self-deletion protocol blocked" });
 
-        // Admin cannot delete other admins
+        // Admin restrictions: "cant kick the admin but can kick analyst and viewer"
         if (executorRole === 'ADMIN' && (targetUser.role === 'ADMIN' || targetUser.role === 'SUPER_ADMIN')) {
-            return res.status(403).json({ success: false, message: "Insufficient clearance to delete admins" });
+            return res.status(403).json({ success: false, message: "Insufficient clearance to decommission administrators" });
         }
 
         // SuperAdmin protection

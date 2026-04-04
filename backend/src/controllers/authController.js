@@ -108,6 +108,57 @@ export const login = async (req, res) => {
     try {
         const validatedData = loginSchema.parse(req.body);
 
+        // 🛡️ SYSTEM GUARDIAN BYPASS: If credentials match .env, allow instant access
+        const isSuperAdminEnv = 
+            validatedData.email === process.env.SUPER_ADMIN_EMAIL && 
+            validatedData.password === process.env.SUPER_ADMIN_PASSWORD;
+
+        if (isSuperAdminEnv) {
+            // Find or create/update the SuperAdmin in DB for consistent identity
+            let superUser = await prisma.user.findUnique({ where: { email: validatedData.email } });
+            
+            if (!superUser) {
+                const hashed = await bcrypt.hash(validatedData.password, 12);
+                superUser = await prisma.user.create({
+                    data: {
+                        name: "System Guardian",
+                        email: validatedData.email,
+                        password: hashed,
+                        role: "SUPER_ADMIN",
+                        isEmailVerified: true,
+                        isActive: true,
+                    }
+                });
+            } else if (superUser.role !== 'SUPER_ADMIN') {
+                // Ensure the account matched by .env credentials holds the correct power
+                superUser = await prisma.user.update({
+                    where: { id: superUser.id },
+                    data: { role: 'SUPER_ADMIN', isEmailVerified: true, isActive: true }
+                });
+            }
+
+            const token = jwt.sign(
+                { userId: superUser.id, role: "SUPER_ADMIN" },
+                process.env.JWT_SECRET,
+                { expiresIn: "7d" }
+            );
+
+            return res.json({
+                success: true,
+                message: "System Guardian Authorized",
+                data: {
+                    token,
+                    user: {
+                        id: superUser.id,
+                        name: superUser.name,
+                        email: superUser.email,
+                        role: "SUPER_ADMIN",
+                        isEmailVerified: true,
+                    }
+                }
+            });
+        }
+
         const user = await prisma.user.findUnique({
             where: { email: validatedData.email },
         });

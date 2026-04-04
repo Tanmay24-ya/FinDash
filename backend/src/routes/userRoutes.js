@@ -7,7 +7,7 @@ const router = express.Router();
 // ADMIN & SUPER_ADMIN Protected Routes
 router.get("/", protect, checkRole(['ADMIN', 'SUPER_ADMIN']), getUsers);
 router.put("/:id/promote", protect, checkRole(['ADMIN', 'SUPER_ADMIN']), promoteUser);
-router.put("/:id/demote", protect, checkRole(['SUPER_ADMIN']), demoteUser); // Extra lock on demotion
+router.put("/:id/demote", protect, checkRole(['ADMIN', 'SUPER_ADMIN']), demoteUser); 
 router.delete("/:id", protect, checkRole(['ADMIN', 'SUPER_ADMIN']), deleteUser);
 
 export default router;

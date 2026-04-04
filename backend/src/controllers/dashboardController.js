@@ -4,14 +4,18 @@ import { subMonths, startOfMonth, endOfMonth, eachDayOfInterval, format, subDays
 export const getSummary = async (req, res) => {
     try {
         const userId = req.user.userId;
+        const userRole = req.user.role;
         const now = new Date();
         const startOfCurrentMonth = startOfMonth(now);
         const startOfLastMonth = startOfMonth(subMonths(now, 1));
         const endOfLastMonth = endOfMonth(subMonths(now, 1));
 
-        // Fetch all non-deleted records for this user
+        // SECURITY ARCHITECTURE: SuperAdmin sees GLOBAL metrics, others see PRIVATE metrics
+        const filter = userRole === 'SUPER_ADMIN' ? { isDeleted: false } : { userId, isDeleted: false };
+
+        // Fetch all non-deleted records
         const records = await prisma.record.findMany({
-            where: { userId, isDeleted: false },
+            where: filter,
             orderBy: { date: "desc" },
         });
 

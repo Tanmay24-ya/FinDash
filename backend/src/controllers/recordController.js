@@ -23,7 +23,7 @@ export const createRecord = async (req, res) => {
     }
 };
 
-// GET ALL RECORDS (PAGINATION, SEARCH, FILTERS)
+// GET ALL RECORDS (Hierarchical Oversight)
 export const getRecords = async (req, res) => {
     try {
         const { 
@@ -36,14 +36,12 @@ export const getRecords = async (req, res) => {
           limit = 10 
         } = req.query;
         
-        const userId = req.user.userId;
+        const { userId, role } = req.user;
         const skip = (parseInt(page) - 1) * parseInt(limit);
         const take = parseInt(limit);
 
-        const where = { 
-          userId,
-          isDeleted: false 
-        };
+        // SUPER_ADMIN sees EVERYTHING, others see their OWN
+        const where = role === 'SUPER_ADMIN' ? { isDeleted: false } : { userId, isDeleted: false };
 
         if (type) where.type = type;
         if (category) where.category = category;
@@ -66,6 +64,8 @@ export const getRecords = async (req, res) => {
             orderBy: { date: "desc" },
             skip,
             take,
+            // Include owner info for SuperAdmin
+            include: role === 'SUPER_ADMIN' ? { user: { select: { name: true, email: true } } } : undefined
           }),
           prisma.record.count({ where })
         ]);
@@ -89,14 +89,14 @@ export const getRecords = async (req, res) => {
 export const updateRecord = async (req, res) => {
     try {
         const { id } = req.params;
+        const { userId, role } = req.user;
         const validatedData = updateRecordSchema.parse(req.body);
 
-        const record = await prisma.record.findFirst({
-            where: { id, userId: req.user.userId, isDeleted: false },
-        });
+        const filter = role === 'SUPER_ADMIN' ? { id, isDeleted: false } : { id, userId, isDeleted: false };
+        const record = await prisma.record.findFirst({ where: filter });
 
         if (!record) {
-            return res.status(404).json({ success: false, message: "Record not found" });
+            return res.status(404).json({ success: false, message: "Record not found or clearance insufficient" });
         }
 
         const updated = await prisma.record.update({
@@ -120,13 +120,13 @@ export const updateRecord = async (req, res) => {
 export const deleteRecord = async (req, res) => {
     try {
         const { id } = req.params;
+        const { userId, role } = req.user;
 
-        const record = await prisma.record.findFirst({
-            where: { id, userId: req.user.userId, isDeleted: false },
-        });
+        const filter = role === 'SUPER_ADMIN' ? { id, isDeleted: false } : { id, userId, isDeleted: false };
+        const record = await prisma.record.findFirst({ where: filter });
 
         if (!record) {
-            return res.status(404).json({ success: false, message: "Record found or access denied" });
+            return res.status(404).json({ success: false, message: "Record found or clearance insufficient" });
         }
 
         await prisma.record.update({
@@ -134,7 +134,7 @@ export const deleteRecord = async (req, res) => {
             data: { isDeleted: true },
         });
 
-        res.json({ success: true, message: "Record deleted successfully" });
+        res.json({ success: true, message: "Record decommissioned successfully" });
     } catch (error) {
         res.status(500).json({ success: false, message: "Error deleting record" });
     }

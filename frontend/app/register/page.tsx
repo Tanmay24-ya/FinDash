@@ -120,12 +120,15 @@ export default function RegisterPage() {
                     placeholder="••••••••" 
                   />
                 </div>
+                <div className="px-3">
+                  <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest leading-relaxed">8+ Characters • 1 Uppercase • 1 Number • 1 Symbol</p>
+                </div>
               </div>
 
               <div className="p-4 rounded-xl bg-primary/5 border border-primary/10">
                  <p className="text-[10px] text-primary/70 font-bold uppercase tracking-[0.15em] leading-relaxed">
                    <ShieldCheck className="inline-block mr-1 mb-0.5" size={12} />
-                   Identity initially provisioned with VIEWER status. High-level ANALYST clearance awarded automatically upon email verification.
+                   Identity initially provisioned with VIEWER status. High-level ANALYST clearance awarded automatically upon email verification or administrative promotion.
                  </p>
               </div>
             </div>

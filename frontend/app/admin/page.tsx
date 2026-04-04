@@ -13,7 +13,7 @@ import Protected from '@/components/layout/Protected';
 
 export default function AdminPanel() {
   return (
-    <Protected allowedRoles={['ADMIN']}>
+    <Protected allowedRoles={['ADMIN', 'SUPER_ADMIN']}>
       <header className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6 pb-2 border-b border-white/5">
          <motion.div
            initial={{ opacity: 0, x: -20 }}

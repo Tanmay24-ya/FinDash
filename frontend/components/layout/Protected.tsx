@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 interface Props {
   children: React.ReactNode;
-  allowedRoles?: ('ADMIN' | 'ANALYST' | 'VIEWER')[];
+  allowedRoles?: ('SUPER_ADMIN' | 'ADMIN' | 'ANALYST' | 'VIEWER')[];
 }
 
 export default function Protected({ children, allowedRoles }: Props) {

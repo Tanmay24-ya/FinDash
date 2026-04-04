@@ -18,9 +18,9 @@ import { ThemeToggle } from '@/components/ui/ThemeToggle';
 const cn = (...args: any[]) => twMerge(clsx(args));
 
 const NAV_ITEMS = [
-  { label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard', roles: ['ADMIN', 'ANALYST', 'VIEWER'] },
-  { label: 'Transactions', icon: IndianRupee, href: '/transactions', roles: ['ADMIN', 'ANALYST', 'VIEWER'] },
-  { label: 'Admin Panel', icon: Users, href: '/admin', roles: ['ADMIN'] },
+  { label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard', roles: ['SUPER_ADMIN', 'ADMIN', 'ANALYST', 'VIEWER'] },
+  { label: 'Transactions', icon: IndianRupee, href: '/transactions', roles: ['SUPER_ADMIN', 'ADMIN', 'ANALYST', 'VIEWER'] },
+  { label: 'Admin Panel', icon: Users, href: '/admin', roles: ['SUPER_ADMIN', 'ADMIN'] },
 ];
 
 export function Sidebar() {

@@ -21,10 +21,17 @@ export const protect = (req, res, next) => {
 // ROLE-BASED ACCESS CONTROL (RBAC)
 export const checkRole = (roles) => {
     return (req, res, next) => {
-        if (!roles.includes(req.user.role)) {
+        // SYSTEM GUARDIAN BYPASS: Super Admin has unconditional clearance
+        if (req.user.role === 'SUPER_ADMIN') {
+            return next();
+        }
+
+        const allowedRoles = Array.isArray(roles) ? roles : [roles];
+        
+        if (!allowedRoles.includes(req.user.role)) {
             return res.status(403).json({ 
                 success: false, 
-                message: "Access Denied: Insufficient privilege level" 
+                message: `Access Denied: Your security clearance Level (${req.user.role}) is insufficient for this sector.` 
             });
         }
         next();
