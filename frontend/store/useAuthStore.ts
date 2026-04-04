@@ -5,7 +5,8 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: 'ADMIN' | 'ANALYST' | 'VIEWER';
+  role: 'SUPER_ADMIN' | 'ADMIN' | 'ANALYST' | 'VIEWER';
+  isEmailVerified: boolean;
   isActive: boolean;
 }
 

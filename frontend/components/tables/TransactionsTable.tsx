@@ -98,7 +98,7 @@ export function TransactionsTable({
               <th className="px-6 py-4 text-xs font-black uppercase text-muted-foreground tracking-widest">Category</th>
               <th className="hidden lg:table-cell px-6 py-4 text-xs font-black uppercase text-muted-foreground tracking-widest">Date</th>
               <th className="px-6 py-4 text-right text-xs font-black uppercase text-muted-foreground tracking-widest">Amount</th>
-              {user?.role === 'ADMIN' && <th className="px-6 py-4 text-right text-xs font-black uppercase text-muted-foreground tracking-widest">Actions</th>}
+              {(user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN') && <th className="px-6 py-4 text-right text-xs font-black uppercase text-muted-foreground tracking-widest">Actions</th>}
             </tr>
           </thead>
           <tbody className="divide-y divide-white/5">
@@ -155,7 +155,7 @@ export function TransactionsTable({
                          {t.type === 'INCOME' ? '+' : '-'}₹{t.amount.toLocaleString()}
                        </p>
                     </td>
-                    {user?.role === 'ADMIN' && (
+                    {(user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN') && (
                       <td className="px-6 py-5 text-right">
                         <button 
                           onClick={() => onDelete(t.id)}

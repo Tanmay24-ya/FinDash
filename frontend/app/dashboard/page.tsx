@@ -9,14 +9,17 @@ import {
   Plus, 
   RefreshCw,
   LayoutGrid,
-  Info
+  Info,
+  ShieldCheck,
+  AlertCircle,
+  ArrowRight
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuthStore } from '@/store/useAuthStore';
 import { toast } from 'react-toastify';
 
 export default function Dashboard() {
-  const { user } = useAuthStore();
+  const { user, setAuth } = useAuthStore();
   const [dashboardData, setDashboardData] = useState<any>(null);
   const [recordsData, setRecordsData] = useState<{ data: any[], pagination: any }>({ data: [], pagination: null });
   const [loading, setLoading] = useState(true);
@@ -53,8 +56,50 @@ export default function Dashboard() {
     }
   };
 
+  const handleVerify = async () => {
+    try {
+      // In dev, we use the token from localStorage or just prompt
+      const token = localStorage.getItem('dev-verify-token') || prompt("Enter verification token (from register response):");
+      if (!token) return;
+
+      const res = await api.post('/auth/verify-email', { token });
+      setAuth(res.data.user, res.data.token);
+      toast.success("Identity Verified! Escalated to ANALYST status.");
+      fetchData();
+    } catch (err: any) {
+      toast.error(err.message || "Verification failed");
+    }
+  };
+
   return (
     <div className="space-y-10">
+      {/* Verification Banner */}
+      {!user?.isEmailVerified && (
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative overflow-hidden group rounded-3xl bg-linear-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/20 p-6 flex flex-col md:flex-row items-center justify-between gap-6"
+        >
+          <div className="absolute inset-0 bg-linear-to-r from-amber-500/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+          <div className="flex items-center gap-4 relative z-10">
+            <div className="h-14 w-14 rounded-2xl bg-amber-500/20 flex items-center justify-center text-amber-500 shrink-0 shadow-lg shadow-amber-500/10">
+              <AlertCircle size={28} />
+            </div>
+            <div>
+              <h3 className="text-xl font-black tracking-tight text-amber-500">Unverified Identity</h3>
+              <p className="text-sm font-bold text-amber-500/70 uppercase tracking-widest leading-relaxed max-w-md">Access restricted to read-only. Verify your account to unlock transaction creation and record management.</p>
+            </div>
+          </div>
+          <button 
+            onClick={handleVerify}
+            className="relative z-10 flex h-14 items-center gap-3 px-8 rounded-2xl bg-amber-500 text-white font-black hover:bg-amber-600 hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-amber-500/20"
+          >
+            <span>Simulate Verification</span>
+            <ArrowRight size={20} />
+          </button>
+        </motion.div>
+      )}
+
       {/* Header Section */}
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-2">
          <motion.div
