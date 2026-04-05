@@ -1,169 +1,235 @@
-# 🏦 FinDash: Advanced Financial Intelligence Ecosystem
+# 🏦 FinDash: High-Fidelity Financial Intelligence Ecosystem
 
 <p align="center">
   <img src="docs/assets/findash_banner.png" alt="FinDash Banner" width="100%">
 </p>
 
----
-
-### 🛡️ **Empowering Financial Governance through Intelligent Architecture**
-
-FinDash is a comprehensive, enterprise-grade financial management ecosystem designed to bridge the gap between complex data processing and intuitive user interaction. This repository follows a strictly decoupled architecture, integrating a high-performance **Node.js/Prisma/PostgreSQL** backend with a high-fidelity **Next.js 15** frontend.
-
----
-
-## 📖 **Table of Contents**
-
-*   [🌟 Project Vision & Problem Statement](#-project-vision--problem-statement)
-*   [🏗️ Unified Ecosystem Architecture](#️-unified-ecosystem-architecture)
-*   [🛡️ Hierarchical Access Control (RBAC)](#️-hierarchical-access-control-rbac)
-*   [📡 API Intelligence & Testing Guide](#-api-intelligence--testing-guide)
-*   [🔒 Security & Engineering Standards](#-security--engineering-standards)
-*   [📈 Data Engineering & Schema](#-data-engineering--schema)
-*   [🚀 Rapid Deployment Protocol](#-rapid-deployment-protocol)
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js" />
+  <img src="https://img.shields.io/badge/Node.js-20-green?style=for-the-badge&logo=node.js" />
+  <img src="https://img.shields.io/badge/Prisma-ORM-2D3748?style=for-the-badge&logo=prisma" />
+  <img src="https://img.shields.io/badge/PostgreSQL-Elephant-336791?style=for-the-badge&logo=postgresql" />
+  <img src="https://img.shields.io/badge/Tailwind-v4-38B2AC?style=for-the-badge&logo=tailwind-css" />
+  <img src="https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript" />
+</p>
 
 ---
 
-## 🌟 **Project Vision & Problem Statement**
+### 🛡️ **FinDash: Engineering Financial Governance**
 
-FinDash was engineered to solve the complex challenge of **multi-tier financial governance**. In modern organizations, data must be accessible but strictly guarded based on organizational hierarchy. 
-
-### **How we addressed the Core Requirements:**
-*   **User & Role Management**: Implemented a dynamic status and multi-role system (`VIEWER`, `ANALYST`, `ADMIN`).
-*   **Financial Records**: Full CRUD capabilities with intelligent auto-categorization logic.
-*   **Dashboard Intelligence**: Aggregated calculation engines for MoM growth, trends, and liquidity summaries.
-*   **Validation Firewall**: 100% request coverage with Zod Schemas and centralized error handling.
+FinDash is a high-fidelity, enterprise-grade financial management ecosystem designed to bridge the gap between complex data processing and intuitive user interaction. This repository follows a strictly decoupled architecture, integrating a high-performance **Node.js/Prisma/PostgreSQL** backend with a high-fidelity **Next.js 15** frontend.
 
 ---
 
-## 🏗️ **Unified Ecosystem Architecture**
+## 🏗️ **Architectural Blueprint**
 
-The project is split into two specialized domains, ensuring maximum separation of concerns and independent scalability.
+Our architecture follows a strictly decoupled **Client-Server-Persistence** model, optimized for horizontal scalability and independent deployment.
 
-```mermaid
-graph TD
-    %% Styling
-    classDef client fill:#3b82f6,stroke:#fff,stroke-width:2px,color:#fff;
-    classDef server fill:#10b981,stroke:#fff,stroke-width:2px,color:#fff;
-    classDef data fill:#ef4444,stroke:#fff,stroke-width:2px,color:#fff;
+```text id="architecture-map"
+Client Layer (Next.js 15)
+  ↓
+API Interceptor Gateway (Axios)
+  ↓
+Validation Shield (Zod Schemas)
+  ↓
+Authentication Firewall (JWT)
+  ↓
+Authorization Governance (Hierarchical RBAC)
+  ↓
+Controllers (Request Orchestration)
+  ↓
+Services (Business Intelligence Logic)
+  ↓
+Data Access Layer (Prisma ORM)
+  ↓
+Primary Persistence (PostgreSQL)
 
-    subgraph User_Interface [Frontend Layer - Next.js]
-        A[Framer Motion Animations]:::client --> B[Glassmorphism Dashboard]:::client
-        B --> C[Zustand State Management]:::client
-        C --> D[Axios API Gateway]:::client
-    end
-
-    subgraph Intelligence_Core [Backend Layer - Node.js]
-        D -- JWT Secured Request --> E[Express.js Middleware]:::server
-        E -- RBAC Validation --> F[Financial Services]:::server
-        F -- Analytics Engine --> G[Data Aggregators]:::server
-    end
-
-    subgraph Persistence_Layer [Data Layer - PostgreSQL]
-        G --> H[Prisma ORM]:::data
-        H --> I[(PostgreSQL DB)]:::data
-    end
+Error Management → Centralized Global Middleware
 ```
 
 ---
 
-## 🛡️ **Hierarchical Access Control (RBAC)**
+## 🌟 **Key Intelligence Highlights**
 
-Access control is enforced at the **atomic level** on the backend and reflected visually on the frontend.
+*   **Modular Architecture**: Clean separation of concerns with a Service-Controller pattern for maximum testability.
+*   **Analytics Engine**: Sophisticated logic for real-time Income/Expense aggregation, Monthly Growth Trends, and Category Velocity.
+*   **Hierarchical RBAC**: Fine-grained access control (VIEWER, ANALYST, ADMIN) enforced at the atomic level.
+*   **Data Integrity**: 100% input validation via Zod, preventing edge-case data corruption.
+*   **Regulatory Persistence**: Soft-delete functionality to maintain audit trails while ensuring a clean user interface.
+*   **Search & Discovery**: High-performance, case-insensitive search with multi-field filtering and pagination metadata.
 
-| Role | Permission Level | Capabilities | Restrictions |
+---
+
+## 🔐 **Access Control Matrix (RBAC)**
+
+| Role | Intent | Capabilities | Restrictions |
 | :--- | :--- | :--- | :--- |
-| **Viewer** | Read-Only | View Dashboard, Trends, Historical Records. | Cannot Create, Edit, or Delete any data. |
-| **Analyst** | Read/Write | View Insights, Create Records, Edit/Delete Transactions. | Cannot Manage Users or System Settings. |
-| **Admin** | Full Authority | User Management, Role Assignments, System-wide Auditing. | No Restrictions. |
+| **VIEWER** | Observation | Read dashboard analytics, view historical ledger. | Cannot create or modify any financial records. |
+| **ANALYST** | Optimization | Manage financial records, update categories, analyze trends. | Cannot manage users or system roles. |
+| **ADMIN** | Authority | Full system control, role assignment, user activation/deactivation. | Zero restrictions. |
 
 ---
 
-## 📡 **API Intelligence & Testing Guide**
+## 📡 **API Documentation & Testing Guide**
 
-All endpoints are protected by JWT and scoped by RBAC. Use the following examples for testing via `curl` or Postman.
+### 🔑 **1. Authentication (Identity Establishment)**
 
-### **1. Identity Module**
-| Endpoint | Method | Example Payload | Description |
-| :--- | :---: | :--- | :--- |
-| `/api/auth/register` | `POST` | `{"email": "...", "password": "...", "role": "ANALYST"}` | Identity Provisioning |
-| `/api/auth/login` | `POST` | `{"email": "...", "password": "..."}` | JWT Credential Exchange |
-
-**Test Command (Login):**
-```bash
-curl -X POST http://localhost:5000/api/auth/login \
-     -H "Content-Type: application/json" \
-     -d '{"email": "admin@findash.io", "password": "securepassword"}'
+#### **POST** `/api/auth/login`
+- **Request Body**:
+```json
+{
+  "email": "admin@findash.io",
+  "password": "securepassword123"
+}
 ```
-
-### **2. Financial Ledger Module**
-| Endpoint | Method | Params/Payload | Requirement |
-| :--- | :---: | :--- | :--- |
-| `/api/records` | `GET` | `?page=1&limit=10&search=Rent` | `VIEWER+` |
-| `/api/records` | `POST` | `{"amount": 5000, "category": "Rent", "date": "..."}` | `ANALYST+` |
-
-**Test Command (Create Record):**
-```bash
-curl -X POST http://localhost:5000/api/records \
-     -H "Authorization: Bearer <YOUR_JWT_TOKEN>" \
-     -H "Content-Type: application/json" \
-     -d '{"amount": 1200, "category": "Consulting", "type": "INCOME", "date": "2026-04-05"}'
+- **Response**:
+```json
+{
+  "success": true,
+  "data": {
+    "token": "JWT_AUTH_TOKEN_HERE"
+  }
+}
 ```
 
 ---
 
-## 🔒 **Security & Engineering Standards**
+### 📊 **2. Financial Ledger (Record Management)**
 
-*   **JWT Integrity**: Authentication is handled via stateless signed tokens with automatic session expiration.
-*   **Password Cryptography**: Passwords never touch the database in raw form; we utilize **Bcrypt.js** with a 12-round salt.
-*   **BORS (Boundary of Reliability System)**: Every incoming field is validated against **Zod** schemas before reaching the business logic.
-*   **Soft Deletion**: Financial records are never truly purged; we implement an audit-friendly `isDeleted` flag for recovery and compliance.
-*   **Rate Limiting**: Protection against brute-force and DDoS attempts in production environments.
+#### **GET** `/api/records`
+- **Purpose**: Fetches paginated, searchable, and filtered records.
+- **Parameters**: `page=1`, `limit=10`, `search=rent`, `type=EXPENSE`, `category=Housing`.
+- **Response**:
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "uuid-v4-record-id",
+      "amount": 1200,
+      "type": "EXPENSE",
+      "category": "Rent",
+      "date": "2026-04-05T00:00:00.000Z",
+      "notes": "Monthly studio rent"
+    }
+  ],
+  "meta": {
+    "totalCount": 45,
+    "totalPage": 5
+  }
+}
+```
 
 ---
 
-## 📈 **Data Engineering & Schema**
+### 📈 **3. Analytics Engine (Dashboard Summary)**
+
+#### **GET** `/api/dashboard/summary`
+- **Purpose**: Real-time aggregation of financial velocity.
+- **Response**:
+```json
+{
+  "success": true,
+  "data": {
+    "totalIncome": 150000,
+    "totalExpense": 7000,
+    "balance": 143000,
+    "categoryBreakdown": {
+      "Freelance": { "income": 50000, "expense": 0 },
+      "Food": { "income": 0, "expense": 3000 }
+    },
+    "monthlyTrends": {
+      "2026-04": { "income": 100000, "expense": 4000 }
+    }
+  }
+}
+```
+
+---
+
+## 🛡️ **Access Control Scenarios (RBAC in Action)**
+
+### ❌ **Sample: Forbidden Access (Role Conflict)**
+If a **VIEWER** attempts to delete a record via `DELETE /api/records/:id`:
+- **Response**:
+```json
+{
+  "success": false,
+  "message": "Forbidden: Higher authorization required"
+}
+```
+
+### ❌ **Sample: Unauthorized (No Token)**
+If a request is sent without the `Authorization` header:
+- **Response**:
+```json
+{
+  "success": false,
+  "message": "Unauthorized: Identity not verified"
+}
+```
+
+---
+
+## ⚠️ **Edge Case & Reliability Engineering**
+
+*   **Case-Insensitive Normalization**: Searching for "Food", "food", or "FOOD" yields identical results, ensuring user convenience.
+*   **Duplicate Category Aggregation**: Handles inconsistent data entry by consolidating "Salary" and "salary" during the analytics phase.
+*   **Atomic Deletion Guard**: Soft-delete ensures records are instantly removed from UI/Analytics but remain in the database for auditing purposes.
+*   **Validation Firewall (Zod)**: Prevents malformed requests (e.g., negative amounts or invalid ISO dates) before they reach the DB.
+*   **Data Isolation**: Guaranteed single-user scoping for every query, preventing cross-tenant data leakage.
+
+---
+
+## 📈 **Data Engineering Schema**
 
 ```mermaid
 erDiagram
     USER ||--o{ RECORD : manages
     USER {
         uuid id PK
-        string email UK
-        string password
+        string name "Full Name"
+        string email UK "Identity Credential"
+        string password "Hashed BCrypt vault"
         enum role "ADMIN | ANALYST | VIEWER"
-        boolean isActive
+        boolean isActive "System State"
     }
     RECORD {
         uuid id PK
-        decimal amount
+        decimal amount "Precision Currency"
         enum type "INCOME | EXPENSE"
-        string category
-        date date
-        string notes
-        boolean isDeleted
-        uuid userId FK
+        string category "Normalized Tag"
+        datetime date "Execution Time"
+        string notes "Metadata"
+        boolean isDeleted "Soft-delete Audit Flag"
+        uuid userId FK "Owner Reference"
     }
 ```
 
 ---
 
+## 🧠 **Design Decisions & Logic Flow**
+
+1.  **PostgreSQL**: Chosen for ACID compliance, essential for transactional financial integrity.
+2.  **Prisma ORM**: Provides type-safe database abstraction, reducing schema drift and runtime query errors.
+3.  **JWT Strategy**: Stateless authentication allows for horizontal backend scaling without session sharing.
+4.  **Service-Controller Layering**: Isolates complex business logic (like MoM growth calculations) from request handling.
+5.  **Soft Delete**: Enables historical auditing and accidental recovery without compromising analytics accuracy.
+
+---
+
 ## 🚀 **Rapid Deployment Protocol**
 
-### **Prerequisites**
-*   Node.js (v20+)
-*   PostgreSQL Instance
-
-### **Step 1: Backend Setup**
+### **Step 1: Backend Initialization**
 ```bash
 cd backend
 npm install
-cp .env.example .env # Tune your DB credentials
+cp .env.example .env # Configure your DB_URL & JWT_SECRET
 npx prisma db push
 npm run dev
 ```
 
-### **Step 2: Frontend Setup**
+### **Step 2: Frontend Initialization**
 ```bash
 cd frontend
 npm install
@@ -172,7 +238,15 @@ npm run dev
 
 ---
 
-## 🔮 **Future Roadmap**
+## 📌 **Assumptions & Boundary Conditions**
+
+*   **Single Currency**: The current version assumes a unified currency system (e.g., USD/INR).
+*   **User Isolation**: Users only have visibility into records they personally created or managed.
+*   **Date Precision**: All date calculations are based on UTC to avoid timezone drift in analytics.
+
+---
+
+## 🔮 **Future Roadmap & Scalability**
 
 *   [ ] **Financial Forecaster**: AI-driven predictive modeling for future balance trends.
 *   [ ] **Report Generator**: Automated PDF/CSV export for auditing.
@@ -184,5 +258,5 @@ npm run dev
   <b>FinDash Intelligence | High Fidelity Interface</b><br>
   🛡️ Identity Verified | 📊 Analytics Ready | 🚀 High Scalability
   <br>
-  Developed with focus on <b>Performance, Security, and Scalable UX</b>
+  Developed with focus on <b>Performance, Security, and Professional Fiscal Governance</b>
 </p>
