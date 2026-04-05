@@ -1,6 +1,7 @@
 'use client';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { IndianRupee, ArrowRight, ShieldCheck, PieChart, Activity, Code, Zap, Globe, Cpu, Rocket, Sparkles } from 'lucide-react';
+import { IndianRupee, ArrowRight, ShieldCheck, PieChart, Activity, Code, Zap, Globe, Cpu, Rocket, Sparkles, ChevronRight } from 'lucide-react';
+import type { Variants } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -27,7 +28,7 @@ export default function LandingPage() {
 
   if (!mounted) return null;
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -38,9 +39,16 @@ export default function LandingPage() {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 100 } }
+    visible: { 
+      y: 0, 
+      opacity: 1, 
+      transition: { 
+        type: "spring", 
+        stiffness: 100 
+      } 
+    }
   };
 
   return (
@@ -135,7 +143,7 @@ export default function LandingPage() {
                   Wealth <br />
                   <span className="text-transparent bg-clip-text bg-linear-to-br from-indigo-400 via-primary to-purple-600 italic">Architect.</span>
                </h1>
-            </motion.h1>
+            </motion.div>
 
             {/* 📝 SUB-NARRATIVE */}
             <motion.p 
