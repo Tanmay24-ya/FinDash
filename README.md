@@ -127,85 +127,33 @@ We solved this by introducing the **Super Admin** concept—a high-level bypass 
 
 ---
 
-## 📡 **API Command Center & Testing Manual**
+## 📬 **API Testing (Postman Collection)**
 
-### **1. Authentication Protocol**
+You can test all APIs using the professional Postman collection:
+👉 **[Download Collection](./docs/FinDash_Postman_Collection.json)**
 
-#### **Request: User Establishment (Register)**
-`POST /api/auth/register`
-```json
-{
-    "name": "Alex Admin",
-    "email": "alex@findash.io",
-    "password": "strongPassword123",
-    "role": "ADMIN"
-}
-```
+### **Included API Modules:**
+*   **Auth**: Seamless Register/Login flow.
+*   **Records**: High-performance Transaction CRUD (Soft-Delete Aware).
+*   **Summary**: Real-time Analytics & Trend Aggregation.
+*   **User Management**: Role hierarchy & Admin bypass verification.
 
-#### **Request: Identity Verification (Login)**
-`POST /api/auth/login`
-```json
-{
-    "email": "alex@findash.io",
-    "password": "strongPassword123"
-}
-```
-**Response Details:**
-*   Returns an `encryptedToken`.
-*   Includes user metadata (`role`, `name`) for frontend hydration.
+### **How to Import & Synchronize**
+1.  **Import**: In Postman, click **Import** and drag `FinDash_Postman_Collection.json`.
+2.  **Auth Script**: Run the **"Login & Get Token"** request first. A built-in script will auto-capture your `jwt_token` and apply it to all subsequent requests.
+3.  **Variable**: Verify `base_url` is set to `http://localhost:5000`.
 
----
+### **Core Test Cases & Validation Matrix**
 
-### **2. Financial Records Ledger**
-
-#### **Request: Fetch Paginated Transactions**
-`GET /api/records?page=1&limit=5&search=Food`
-```json
-{
-    "success": true,
-    "data": [
-        {
-            "id": "7f8a...",
-            "amount": 250,
-            "category": "Food",
-            "type": "EXPENSE",
-            "date": "2026-04-05"
-        }
-    ],
-    "meta": { "total": 120, "pages": 24 }
-}
-```
-
-#### **Request: Transaction Persistence (Create)**
-`POST /api/records`
-```json
-{
-    "amount": 5000,
-    "category": "Salary",
-    "type": "INCOME",
-    "date": "2026-04-01",
-    "notes": "Main job payout"
-}
-```
-
----
-
-### **3. Intelligence Dashboard**
-
-#### **Request: Summary Calculation**
-`GET /api/dashboard/summary`
-```json
-{
-    "success": true,
-    "data": {
-        "totalIncome": 120000,
-        "totalExpense": 45000,
-        "netBalance": 75000,
-        "trends": { "Jan": 20000, "Feb": 25000 },
-        "categories": { "Entertainment": 1500, "Rent": 3500 }
-    }
-}
-```
+| Module | Request | Objective | Expected Outcome |
+| :--- | :--- | :--- | :--- |
+| **Auth** | Register | Establish new identity. | `201 Created` + User Object. |
+| **Auth** | Login | Verify credentials & get JWT. | `200 OK` + `data.token`. |
+| **Ledger** | Get All | Verify data isolation & pagination. | `200 OK` + Meta (Total/Pages). |
+| **Ledger** | Create | Verify business logic (Type Auto-switch). | `201 Created` + New Record. |
+| **Ledger** | Delete | Verify Soft Deletion Integrity. | `200 OK` + `isDeleted: true`. |
+| **Dashboard** | Summary | Verify real-time aggregation. | `200 OK` + Trends & Breakdowns. |
+| **Governance** | Promote | Verify Super Admin Bypass. | `200 OK` + Role Updated. |
 
 ---
 
