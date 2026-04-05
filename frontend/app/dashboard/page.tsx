@@ -37,9 +37,13 @@ export default function Dashboard() {
       const [dbRes, recordsRes] = await Promise.all([
         api.get('/dashboard/summary'),
         api.get(`/records?page=${filters.page}&limit=${filters.limit}&search=${filters.search}`)
-      ]);
+      ]) as [any, any];
+      
       setDashboardData(dbRes.data);
-      setRecordsData(recordsRes.data); 
+      setRecordsData({ 
+        data: recordsRes.data, 
+        pagination: recordsRes.pagination 
+      }); 
     } catch (err: any) {
       toast.error(err.message || 'Error loading dashboard');
     } finally {
@@ -69,7 +73,6 @@ export default function Dashboard() {
 
   const handleVerify = async () => {
     try {
-      // In dev, we use the token from localStorage or just prompt
       const token = localStorage.getItem('dev-verify-token') || prompt("Enter verification token (from register response):");
       if (!token) return;
 

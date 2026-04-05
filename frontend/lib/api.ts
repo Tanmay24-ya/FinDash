@@ -30,16 +30,17 @@ api.interceptors.response.use(
   (response) => {
     // If backend returns { success: true, data: ... }
     if (response.data?.success) {
-      return response.data; // Return only the data payload for cleaner UI usage
+      return response.data; // Return the whole body { success, message, data, pagination }
     }
-    return response;
+    return response.data; // Return the body anyway if it exists
   },
   (error) => {
     // Handle global errors like 401 Unauthorized
     if (error.response?.status === 401) {
-      // Clear token and redirect if needed
-      // localStorage.removeItem('auth-storage');
-      // window.location.href = '/login';
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('auth-storage');
+        window.location.href = '/login';
+      }
     }
     
     // Pass back normalized error message
