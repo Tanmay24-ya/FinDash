@@ -1,4 +1,5 @@
 'use client';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -26,6 +27,18 @@ const NAV_ITEMS = [
 export function Sidebar() {
   const pathname = usePathname();
   const { user, logout } = useAuthStore();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return (
+     <aside className="fixed left-0 top-0 hidden h-screen w-72 flex-col border-r border-white/10 glass bg-card/40 md:flex animate-pulse">
+        <div className="h-full w-full bg-white/5 opacity-20" />
+     </aside>
+  );
+
   const currentRole = user?.role || 'VIEWER';
 
   return (
@@ -74,8 +87,8 @@ export function Sidebar() {
 
         <div className="rounded-3xl bg-muted/40 p-4 border border-white/5 shadow-sm">
            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg">
-                 {user?.name?.[0].toUpperCase()}
+              <div className="h-10 w-10 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg uppercase">
+                 {(user?.name?.[0] || 'U')}
               </div>
               <div>
                  <p className="text-sm font-black truncate max-w-[120px]">{user?.name}</p>
