@@ -31,7 +31,7 @@ export default function TransactionsPage() {
         ...(filters.category && { category: filters.category })
       });
       const res = await api.get(`/records?${queryParams}`);
-      setRecordsData(res);
+      setRecordsData(res.data);
     } catch (err: any) {
       toast.error(err.message || 'Error loading ledger');
     } finally {

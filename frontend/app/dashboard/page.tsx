@@ -34,7 +34,7 @@ export default function Dashboard() {
         api.get(`/records?page=${filters.page}&limit=${filters.limit}&search=${filters.search}`)
       ]);
       setDashboardData(dbRes.data);
-      setRecordsData(recordsRes as any); 
+      setRecordsData(recordsRes.data); 
     } catch (err: any) {
       toast.error(err.message || 'Error loading dashboard');
     } finally {
