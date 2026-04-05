@@ -65,14 +65,15 @@ export function CustomSelect({ options, value, onChange, placeholder, label, ico
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="absolute z-50 w-full mt-2 rounded-3xl bg-card/90 backdrop-blur-2xl border border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] overflow-hidden"
+            className="absolute z-50 w-full mt-2 rounded-3xl bg-card/90 backdrop-blur-2xl border border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]"
           >
-            <div className="p-2 space-y-1">
+            <div className="p-2 space-y-1 max-h-64 overflow-y-auto custom-scrollbar overscroll-contain">
               {options.map((opt) => (
                 <button
                   key={opt.value}
                   type="button"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     onChange(opt.value);
                     setIsOpen(false);
                   }}

@@ -95,3 +95,13 @@ input, select, textarea {
 input:focus, select:focus, textarea:focus {
   @apply border-primary ring-4 ring-primary/10;
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-primary/20 rounded-full hover:bg-primary/40 transition-colors;
+}
