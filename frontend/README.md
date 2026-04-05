@@ -1,98 +1,284 @@
-# 📊 FinDash Frontend Infrastructure
+# 📊 FinDash Frontend
 
-A state-of-the-art, high-performance financial intelligence dashboard. Rebuilt from the ground up to provide a luxurious, deep-focus experience for professional wealth management.
+### 🚀 Modern Financial Analytics Dashboard (Next.js)
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-App_Router-black" />
+  <img src="https://img.shields.io/badge/TailwindCSS-v4-blue" />
+  <img src="https://img.shields.io/badge/Zustand-State-green" />
+  <img src="https://img.shields.io/badge/Axios-API-orange" />
+  <img src="https://img.shields.io/badge/Recharts-Visualization-purple" />
+  <img src="https://img.shields.io/badge/FramerMotion-Animation-pink" />
+</p>
+
+<p align="center">
+  <b>High-performance financial dashboard with real-time analytics, role-based UI, and premium UX</b>
+</p>
 
 ---
 
-## 🎨 Visual Design Philosophy: "Obsidian V2"
-The dashboard's design is dictated by "Information Density with Visual Clarity".
+## 🌟 Overview
+
+FinDash Frontend is a **modern financial dashboard UI** built to visualize income, expenses, and analytics in a clean and interactive way.
+
+It is designed with:
+
+* ⚡ High performance (Next.js SSR)
+* 🎨 Premium UI (glassmorphism design)
+* 📊 Data visualization (charts & analytics)
+* 🔐 Secure integration with backend (JWT-based)
+
+---
+
+## 🎨 UI Design Philosophy
+
+### 🧠 Goal: **Information Density with Clarity**
+
+Instead of cluttered dashboards, this UI focuses on:
+
+* Showing **maximum insights**
+* While maintaining **clean readability**
+
+---
+
+### 🎨 Visual System Breakdown
 
 ```mermaid
 graph LR
-    Glass[Glassmorphism Layer] --> Depth[Layered Shadows]
-    Depth --> Color[OKLCH Color Palette]
-    Color --> Animation[Bezier Transitions]
+    UI[User Interface] --> Glass[Glassmorphism Cards]
+    Glass --> Colors[Modern Color System]
+    Colors --> Motion[Smooth Animations]
+    Motion --> UX[Focused User Experience]
 ```
 
-### Key Stylistic Elements
-*   **OKLCH Precise Palette**: Using the newest CSS color space for maximum vibrance across all display types.
-*   **Layered Glass (20px Blur)**: Every card is a translucent layer that allows for a "liquid" feel while maintaining core focus.
-*   **Bezier Physics**: All transitions are tuned to 0.6s with custom cubic-bezier timing to mimic natural motion.
+### ✨ Key Design Elements
+
+* **Glassmorphism UI** → blurred, layered cards
+* **Consistent spacing system** → clean layout
+* **Smooth animations** → improves UX feel
+* **Color-coded insights** → quick financial understanding
 
 ---
 
-## 🚀 Technological Stack Intelligence
+## 🚀 Tech Stack
 
-### Framework & Performance
-*   **Next.js (App Router)**: Chosen for its server-side rendering (SSR) capabilities, which allows for zero-wait initial loads on complex analytics pages.
-*   **Tailwind CSS v4 (Inter):** Using the latest Tailwind engine for JIT (Just-In-Time) styling. It ensures the CSS bundle is kept to a minimum while providing a highly custom UI.
+### ⚙️ Core Framework
 
-### State & Lifecycle Management
-*   **Zustand (Persistent Stores)**: Highly performant, boilerplate-free state management. It stores the JWT and user metadata with automatic localStorage synchronization.
-*   **Axios (Interceptor Layer)**: Custom-engineered to automatically inject the Bearer token into outgoing requests and handle global 401 (Unauthorized) errors by redirecting to the login system.
-
-### Interactive Visualization
-*   **Recharts (Monotone Physics)**: We used the `Monotone` area type to visualize wealth velocity. It creates a smooth, predictable curve that is easier to read than jagged linear lines.
-*   **Framer Motion**: The "AnimatePresence" logic ensures that modals and search results don't just appear—they "deploy" into the UI with physics-based scaling.
+| Tech                 | Purpose       |
+| -------------------- | ------------- |
+| Next.js (App Router) | SSR + Routing |
+| Tailwind CSS v4      | Styling       |
+| TypeScript           | Type safety   |
 
 ---
 
-## 👤 User Experience Flowchart
+### 🔄 State & API Layer
 
-This diagram shows how different users interact with the dashboard logic.
+| Tech         | Role                                |
+| ------------ | ----------------------------------- |
+| Zustand      | Global state (auth + user)          |
+| Axios        | API communication                   |
+| Interceptors | Auto JWT injection + error handling |
+
+---
+
+### 📊 Visualization & UI
+
+| Tech          | Use              |
+| ------------- | ---------------- |
+| Recharts      | Financial charts |
+| Framer Motion | Animations       |
+
+---
+
+## 👤 User Flow (How App Works)
 
 ```mermaid
 graph TD
-    Entry((User Entry)) --> Auth{Is Authenticated?}
-    Auth -- No --> Landing[Landing Page]
-    Auth -- Yes --> Dashboard[Financial Dashboard]
+    Start((User)) --> Auth{Authenticated?}
     
-    Dashboard --> Analytics[Wealth Velocity Analytics]
-    Dashboard --> Form[Interactive Transaction Form]
-    Dashboard --> Admin[Admin Control Panel]
+    Auth -- No --> Login[Login Page]
+    Auth -- Yes --> Dashboard[Dashboard]
     
-    Form -- Salary Category --> AutoType[Auto-Categorize INCOME]
-    Form -- Expense Category --> DeltaCalc[Update MoM Deltas]
+    Dashboard --> Analytics[Analytics View]
+    Dashboard --> Records[Transaction Table]
+    Dashboard --> Admin[Admin Panel]
     
-    Admin -- Change Role --> RBACUpdate[Sync Permissions]
-    Admin -- Toggle Status --> SafetyLock[Update System Clearance]
+    Records --> Add[Add Transaction]
+    Records --> Filter[Search & Filter]
+    
+    Admin --> Role[Manage Roles]
+    Admin --> Status[Toggle User Status]
 ```
 
 ---
 
-## 🧩 Advanced Module Breakdown
+## 📊 Core Features
 
-### 1. The Velocity Analytics Radar
-A dual-axis chart engine that allows the user to toggle between their **Monthly** macro-trends and their **Daily** micro-performance. The engine automatically scales its Y-axis based on the highest inflow/outflow for the selected period.
+### 📈 1. Analytics Dashboard
 
-### 2. High-Fidelity Ledger System
-The ledger is more than a table. It includes:
-*   **Debounced Precision Search**: Triggers filtering at exactly 500ms after the last keystroke to optimize API calls.
-*   **Delta Highlighting**: Positive deltas are rendered in `Emerald 500` and negative in `Rose 500` for instant financial "heat reading".
+* Total income & expenses
+* Balance overview
+* Monthly trends
+* Category-wise insights
 
-### 3. "Obsidian" Select Drops
-A bespoke dropdown architecture that replaces the standard browser `select`. It maintains the glassmorphism aesthetic across the entire form experience, ensuring no part of the UI feels "default".
+👉 Powered by backend aggregation APIs
 
 ---
 
-## 🧪 Testing the Frontend
-We ensure high reliability through rigorous state testing.
+### 📄 2. Transaction Ledger
 
-### Manual Verification Path
-1.  **Auth Lock**: Try to visit `/dashboard` without logging in. The system should automatically bounce you to `/login`.
-2.  **Role Lock**: Log in as a **VIEWER**. The "New Entry" button should be hidden, and deleting records should be disabled.
-3.  **Real-Time Sync**: Add a transaction in the modal. Watch the "Total Income" card and "Wealth Velocity" chart refresh instantly without a page reload.
+* View all transactions
+* Search (debounced)
+* Filter by category/type
+* Pagination
 
 ---
 
-## 🛠️ Setup Protocol
-1.  **Clone Source**
-2.  **Synchronized Dependencies**: `npm install`
-3.  **Variable Deployment**: Set `NEXT_PUBLIC_API_URL` to your backend endpoint in `.env.local`.
-4.  **Deployment Engine**: `npm run dev`
+### ➕ 3. Add Transaction System
 
-📊 **Status**: Fully Optimized.
-🛡️ **Security**: JWT Validated.
-🚀 **Speed**: Ultra High Velocity.
+* Smart category handling
+* Auto updates dashboard
+* Instant UI refresh
 
-Developed by **Infrastructure Group**.
+---
+
+### 🔐 4. Role-Based UI (RBAC)
+
+| Role    | UI Access    |
+| ------- | ------------ |
+| VIEWER  | Read-only    |
+| ANALYST | Add/Edit     |
+| ADMIN   | Full control |
+
+👉 UI automatically adapts based on role
+
+---
+
+## 📊 Charts & Visualization
+
+### 📈 Wealth Trend Chart
+
+* Smooth area chart (Recharts)
+* Displays income vs expenses over time
+* Helps track financial growth
+
+```mermaid
+graph LR
+    Data[Backend Data] --> Transform[Format Data]
+    Transform --> Chart[Render Chart]
+    Chart --> UI[User View]
+```
+
+---
+
+### 🎯 Chart Features
+
+* Dynamic scaling
+* Smooth curves (monotone)
+* Real-time updates
+* Responsive design
+
+---
+
+## ⚡ Performance Optimizations
+
+* SSR (Next.js App Router)
+* Minimal CSS (Tailwind JIT)
+* Debounced API calls
+* Efficient state management (Zustand)
+
+---
+
+## 🔐 Security Handling
+
+* JWT stored in Zustand
+* Axios interceptor injects token
+* Handles 401 → auto redirect to login
+* Role-based UI restrictions
+
+---
+
+## 🧪 Testing Guide
+
+### ✅ Manual Test Cases
+
+1. **Auth Protection**
+
+   * Visit `/dashboard` without login → redirected
+
+2. **Role Restriction**
+
+   * Login as VIEWER → cannot add/delete
+
+3. **Live Updates**
+
+   * Add transaction → dashboard updates instantly
+
+---
+
+## ⚙️ Setup Instructions
+
+```bash
+# Clone repo
+git clone <repo-url>
+
+# Install dependencies
+npm install
+
+# Setup env
+NEXT_PUBLIC_API_URL=your_backend_url
+
+# Start app
+npm run dev
+```
+
+---
+
+## 🔗 Backend Integration
+
+This frontend connects with:
+👉 Finance Dashboard Backend API
+
+Handles:
+
+* Authentication
+* Records
+* Analytics
+
+---
+
+## 🔮 Future Improvements
+
+* Dark/Light theme toggle
+* Export reports (PDF/CSV)
+* Real-time notifications
+* Mobile optimization
+
+---
+
+## 💼 Resume Highlights
+
+* Built **Next.js financial dashboard with SSR**
+* Implemented **RBAC-based UI system**
+* Integrated **real-time analytics using charts**
+* Designed **scalable frontend architecture**
+* Optimized **API handling with interceptors**
+
+---
+
+## 🎯 Final Note
+
+This project demonstrates:
+
+* Modern frontend engineering
+* Scalable UI architecture
+* Real-world dashboard design
+
+👉 Built with focus on **performance, usability, and production standards**
+
+---
+
+<p align="center">
+  ⭐ Star the repo if you like it!
+</p>
