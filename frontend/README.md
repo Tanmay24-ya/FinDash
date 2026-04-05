@@ -1,284 +1,133 @@
-# 📊 FinDash Frontend
-
-### 🚀 Modern Financial Analytics Dashboard (Next.js)
+# 📊 FinDash Frontend Intelligence
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Next.js-App_Router-black" />
-  <img src="https://img.shields.io/badge/TailwindCSS-v4-blue" />
-  <img src="https://img.shields.io/badge/Zustand-State-green" />
-  <img src="https://img.shields.io/badge/Axios-API-orange" />
-  <img src="https://img.shields.io/badge/Recharts-Visualization-purple" />
-  <img src="https://img.shields.io/badge/FramerMotion-Animation-pink" />
-</p>
-
-<p align="center">
-  <b>High-performance financial dashboard with real-time analytics, role-based UI, and premium UX</b>
+  <img src="../docs/assets/findash_banner.png" alt="FinDash Banner" width="100%">
 </p>
 
 ---
 
-## 🌟 Overview
+### 🚀 **Modern Financial Analytics Visualizer**
 
-FinDash Frontend is a **modern financial dashboard UI** built to visualize income, expenses, and analytics in a clean and interactive way.
-
-It is designed with:
-
-* ⚡ High performance (Next.js SSR)
-* 🎨 Premium UI (glassmorphism design)
-* 📊 Data visualization (charts & analytics)
-* 🔐 Secure integration with backend (JWT-based)
+FinDash Frontend is a **high-performance, aesthetically premium financial dashboard** built with Next.js. It transforms raw financial data into actionable insights through sophisticated visualization, intuitive UX, and robust state management.
 
 ---
 
-## 🎨 UI Design Philosophy
+## 🌟 **Key Capabilities & Strategic Features**
 
-### 🧠 Goal: **Information Density with Clarity**
+### 📈 **Advanced Analytics Dashboard**
+*   **Real-time Insights**: Pulse monitor for Total Income, Expenses, and Net Balance.
+*   **Trend Analysis**: Dynamic Area Charts visualizing "Wealth Velocity" over 30 days.
+*   **Category breakdown**: Intelligent distribution of spending via Pie/Bar charts.
 
-Instead of cluttered dashboards, this UI focuses on:
+### 🔐 **Hierarchical RBAC UI**
+*   **Identity-Aware Interface**: The UI dynamically reconfigures itself based on user roles (VIEWER, ANALYST, ADMIN).
+*   **Restricted Actions**: Features like "Add Transaction" or "User Management" are hidden or disabled for restricted tiers.
 
-* Showing **maximum insights**
-* While maintaining **clean readability**
+### 📄 **Financial Ledger Management**
+*   **Fluid Table System**: High-speed, paginated transactions with debounced search.
+*   **Smart Entry**: Category-aware transaction creation with instant dashboard reconciliation.
+
+### 🎨 **Premium Design Architecture**
+*   **Glassmorphism UI**: High-end aesthetic with blurred, layered components.
+*   **TailwindCSS v4**: Cutting-edge, lightning-fast styling with modern utility-first patterns.
+*   **Framer Motion**: Smooth, micro-animated transitions for enhanced interactivity.
 
 ---
 
-### 🎨 Visual System Breakdown
+## 🧠 **The Design Philosophy**
+
+Instead of traditional cluttered finance apps, FinDash focuses on **Information Density with Clarity**.
 
 ```mermaid
 graph LR
-    UI[User Interface] --> Glass[Glassmorphism Cards]
-    Glass --> Colors[Modern Color System]
-    Colors --> Motion[Smooth Animations]
-    Motion --> UX[Focused User Experience]
+    %% Styles
+    classDef ui fill:#3b82f6,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef ux fill:#10b981,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef tech fill:#8b5cf6,stroke:#fff,stroke-width:2px,color:#fff;
+
+    DS[Design System]:::ui --> Glass[Glassmorphism Layers]:::ui
+    Glass --> Motion[Fluid Transitions]:::ui
+    Motion --> UX[High-Fidelity Interaction]:::ux
+    UX --> CX[User Clarity]:::ux
+    
+    subgraph Core_Tech [Technical Foundation]
+        NT[Next.js App Router]:::tech
+        ZW[Zustand State]:::tech
+        TW[Tailwind CSS v4]:::tech
+    end
+    
+    CX -- Optimized By --> NT
 ```
 
-### ✨ Key Design Elements
+---
 
-* **Glassmorphism UI** → blurred, layered cards
-* **Consistent spacing system** → clean layout
-* **Smooth animations** → improves UX feel
-* **Color-coded insights** → quick financial understanding
+## 🚀 **Technological Stack Intelligence**
+
+### ⚙️ **Core Framework**
+*   **Next.js 15 (App Router)**: Hybrid SSR/CSR approach for maximum SEO and performance.
+*   **TypeScript**: Strict type definitions for a zero-runtime-error environment.
+*   **Tailwind CSS v4**: Next-gen styling engine for modern glassmorphism.
+
+### 🔄 **Intelligence Layer**
+*   **Zustand Architecture**: Lightweight, high-performance global state managing Auth, User Profile, and UI states.
+*   **Axios Ecosystem**: Advanced API communication with **Interceptors** for automated JWT injection and 401-auto-logic.
+*   **Recharts Engine**: Professional SVG-based data visualization for financial trends.
 
 ---
 
-## 🚀 Tech Stack
-
-### ⚙️ Core Framework
-
-| Tech                 | Purpose       |
-| -------------------- | ------------- |
-| Next.js (App Router) | SSR + Routing |
-| Tailwind CSS v4      | Styling       |
-| TypeScript           | Type safety   |
-
----
-
-### 🔄 State & API Layer
-
-| Tech         | Role                                |
-| ------------ | ----------------------------------- |
-| Zustand      | Global state (auth + user)          |
-| Axios        | API communication                   |
-| Interceptors | Auto JWT injection + error handling |
-
----
-
-### 📊 Visualization & UI
-
-| Tech          | Use              |
-| ------------- | ---------------- |
-| Recharts      | Financial charts |
-| Framer Motion | Animations       |
-
----
-
-## 👤 User Flow (How App Works)
+## 👤 **The Integrated User Journey**
 
 ```mermaid
 graph TD
-    Start((User)) --> Auth{Authenticated?}
+    Start((System Entry)) --> Auth{Check JWT?}
     
-    Auth -- No --> Login[Login Page]
-    Auth -- Yes --> Dashboard[Dashboard]
+    Auth -- Unauthorized --> Login[Secure Login Portal]
+    Auth -- Authorized --> Dashboard[Main Analytics HQ]
     
-    Dashboard --> Analytics[Analytics View]
-    Dashboard --> Records[Transaction Table]
-    Dashboard --> Admin[Admin Panel]
+    Dashboard --> View1[Wealth Trend Analysis]
+    Dashboard --> View2[Financial Ledger Control]
+    Dashboard --> View3[Admin Governance Panel]
     
-    Records --> Add[Add Transaction]
-    Records --> Filter[Search & Filter]
-    
-    Admin --> Role[Manage Roles]
-    Admin --> Status[Toggle User Status]
+    View3 -- Hierarchy Check --> AdminOp[User Management & RBAC]
+    View2 -- Hierarchy Check --> AddR[Create/Edit Transaction]
 ```
 
 ---
 
-## 📊 Core Features
+## ⚡ **Performance & Security Protocols**
 
-### 📈 1. Analytics Dashboard
+### 🔒 **Security Measures**
+*   **Encrypted State Storage**: Secure persistence of user information.
+*   **Network Interceptor Firewall**: Automated token renewal and request hardening.
+*   **Client-Side Guardrails**: Middleware-protected routing for unauthorized attempts.
 
-* Total income & expenses
-* Balance overview
-* Monthly trends
-* Category-wise insights
-
-👉 Powered by backend aggregation APIs
-
----
-
-### 📄 2. Transaction Ledger
-
-* View all transactions
-* Search (debounced)
-* Filter by category/type
-* Pagination
+### 🚄 **Latency Minimization**
+*   **SSR Pre-fetching**: Immediate data availability on initial load.
+*   **Debounced API Requests**: Reducing server load during high-frequency searching.
+*   **Optimized Assets**: Next/Image for lightning-fast visual rendering.
 
 ---
 
-### ➕ 3. Add Transaction System
+## ⚙️ **The Setup Protocol**
 
-* Smart category handling
-* Auto updates dashboard
-* Instant UI refresh
-
----
-
-### 🔐 4. Role-Based UI (RBAC)
-
-| Role    | UI Access    |
-| ------- | ------------ |
-| VIEWER  | Read-only    |
-| ANALYST | Add/Edit     |
-| ADMIN   | Full control |
-
-👉 UI automatically adapts based on role
-
----
-
-## 📊 Charts & Visualization
-
-### 📈 Wealth Trend Chart
-
-* Smooth area chart (Recharts)
-* Displays income vs expenses over time
-* Helps track financial growth
-
-```mermaid
-graph LR
-    Data[Backend Data] --> Transform[Format Data]
-    Transform --> Chart[Render Chart]
-    Chart --> UI[User View]
-```
-
----
-
-### 🎯 Chart Features
-
-* Dynamic scaling
-* Smooth curves (monotone)
-* Real-time updates
-* Responsive design
-
----
-
-## ⚡ Performance Optimizations
-
-* SSR (Next.js App Router)
-* Minimal CSS (Tailwind JIT)
-* Debounced API calls
-* Efficient state management (Zustand)
-
----
-
-## 🔐 Security Handling
-
-* JWT stored in Zustand
-* Axios interceptor injects token
-* Handles 401 → auto redirect to login
-* Role-based UI restrictions
-
----
-
-## 🧪 Testing Guide
-
-### ✅ Manual Test Cases
-
-1. **Auth Protection**
-
-   * Visit `/dashboard` without login → redirected
-
-2. **Role Restriction**
-
-   * Login as VIEWER → cannot add/delete
-
-3. **Live Updates**
-
-   * Add transaction → dashboard updates instantly
-
----
-
-## ⚙️ Setup Instructions
-
-```bash
-# Clone repo
-git clone <repo-url>
-
-# Install dependencies
-npm install
-
-# Setup env
-NEXT_PUBLIC_API_URL=your_backend_url
-
-# Start app
-npm run dev
-```
-
----
-
-## 🔗 Backend Integration
-
-This frontend connects with:
-👉 Finance Dashboard Backend API
-
-Handles:
-
-* Authentication
-* Records
-* Analytics
-
----
-
-## 🔮 Future Improvements
-
-* Dark/Light theme toggle
-* Export reports (PDF/CSV)
-* Real-time notifications
-* Mobile optimization
-
----
-
-## 💼 Resume Highlights
-
-* Built **Next.js financial dashboard with SSR**
-* Implemented **RBAC-based UI system**
-* Integrated **real-time analytics using charts**
-* Designed **scalable frontend architecture**
-* Optimized **API handling with interceptors**
-
----
-
-## 🎯 Final Note
-
-This project demonstrates:
-
-* Modern frontend engineering
-* Scalable UI architecture
-* Real-world dashboard design
-
-👉 Built with focus on **performance, usability, and production standards**
+1.  **Clone Source**
+    ```bash
+    git clone <repository_url> && cd frontend
+    ```
+2.  **Synchronize Resources**
+    ```bash
+    npm install
+    ```
+3.  **Environment Connectivity**
+    *   Set `NEXT_PUBLIC_API_URL` in `.env.local` to point to the FinDash Backend.
+4.  **Initiate Engine**
+    ```bash
+    npm run dev
+    ```
 
 ---
 
 <p align="center">
-  ⭐ Star the repo if you like it!
+  <b>FinDash Intelligence | High Fidelity Interface</b><br>
+  🎨 Premium UX | 🚀 SSR Optimized | 🛡️ Secure Access
 </p>
