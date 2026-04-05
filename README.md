@@ -127,21 +127,21 @@ We solved this by introducing the **Super Admin** concept—a high-level bypass 
 
 ---
 
-## 📬 **API Testing (Postman Collection)**
+## 📬 **API Testing (Live Documentation)**
 
-You can test all APIs using the professional Postman collection:
-👉 **[Download Collection](./docs/FinDash_Postman_Collection.json)**
+Explore the fully interactive, hosted API documentation via the **Postman Documenter**:
+👉 **[Launch Live API Workspace](https://documenter.getpostman.com/view/53713765/2sBXiqE8qs)**
 
 ### **Included API Modules:**
-*   **Auth**: Seamless Register/Login flow.
-*   **Records**: High-performance Transaction CRUD (Soft-Delete Aware).
-*   **Summary**: Real-time Analytics & Trend Aggregation.
-*   **User Management**: Role hierarchy & Admin bypass verification.
+*   **Auth Node**: Identity Provisioning & Security Session Management.
+*   **Records Vault**: Transactional Ledger Logic (CRUD).
+*   **Intelligence Summary**: Real-time Analytics & Historical Trend Aggregation.
+*   **User Governance**: Role Escalation & Admin Bypass verification.
 
-### **How to Import & Synchronize**
-1.  **Import**: In Postman, click **Import** and drag `FinDash_Postman_Collection.json`.
-2.  **Auth Script**: Run the **"Login & Get Token"** request first. A built-in script will auto-capture your `jwt_token` and apply it to all subsequent requests.
-3.  **Variable**: Verify `base_url` is set to `http://localhost:5000`.
+### **Getting Started with the Documentation**
+1.  **Select Environment**: Use the environment dropdown in the top-right of the hosted documentation to set your target URL.
+2.  **Auth Sequence**: Run the **"Login & Get Token"** request first. This automatically populates your workspace identity variables.
+3.  **Variable Management**: Default `base_url` is configured correctly for local engine testing.
 
 ### **Core Test Cases & Validation Matrix**
 
