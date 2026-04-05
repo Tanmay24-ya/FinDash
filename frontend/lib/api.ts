@@ -9,15 +9,17 @@ const api = axios.create({
 
 // REQUEST INTERCEPTOR: Attach Token automatically
 api.interceptors.request.use((config) => {
-  const authStorage = localStorage.getItem('auth-storage');
-  if (authStorage) {
-    try {
-      const { state } = JSON.parse(authStorage);
-      if (state?.token) {
-        config.headers.Authorization = `Bearer ${state.token}`;
+  if (typeof window !== 'undefined') {
+    const authStorage = localStorage.getItem('auth-storage');
+    if (authStorage) {
+      try {
+        const { state } = JSON.parse(authStorage);
+        if (state?.token) {
+          config.headers.Authorization = `Bearer ${state.token}`;
+        }
+      } catch (e) {
+        console.error('Err parsing auth-storage', e);
       }
-    } catch (e) {
-      console.error('Err parsing auth-storage', e);
     }
   }
   return config;
