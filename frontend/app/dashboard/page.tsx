@@ -25,6 +25,11 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [filters, setFilters] = useState({ page: 1, limit: 5, search: '' });
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const fetchData = useCallback(async () => {
     try {
@@ -43,8 +48,14 @@ export default function Dashboard() {
   }, [filters]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    if (mounted) fetchData();
+  }, [fetchData, mounted]);
+
+  if (!mounted) return (
+     <div className="h-screen w-full flex items-center justify-center bg-background">
+        <RefreshCw className="animate-spin text-primary" size={48} />
+     </div>
+  );
 
   const handleDelete = async (id: string) => {
     try {

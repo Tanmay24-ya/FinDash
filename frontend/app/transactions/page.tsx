@@ -19,6 +19,11 @@ export default function TransactionsPage() {
   const [recordsData, setRecordsData] = useState<{ data: any[], pagination: any }>({ data: [], pagination: null });
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({ page: 1, limit: 10, search: '', type: '', category: '' });
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const fetchData = useCallback(async () => {
     try {
@@ -40,8 +45,10 @@ export default function TransactionsPage() {
   }, [filters]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    if (mounted) fetchData();
+  }, [fetchData, mounted]);
+
+  if (!mounted) return null;
 
   const handleDelete = async (id: string) => {
     try {
